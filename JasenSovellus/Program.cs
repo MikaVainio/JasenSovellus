@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace JasenSovellus
 {
-    // Classes for assiciations and members
+    // Classes for associations and members
 
-    // Class for the Accociation
-    class Accociation
+    // Class for the Association
+    class Association
     {
         // Defined fields aka attributes, access level private by default
         string name;
@@ -19,7 +19,7 @@ namespace JasenSovellus
         uint members;
 
         // Default constructor, no parameters
-        public Accociation()
+        public Association()
         {
             this.name = "N/A";
             this.street = "N/A";
@@ -28,6 +28,15 @@ namespace JasenSovellus
             this.members = 0;
         }
 
+        // Constructor with all arguments
+        public Association(string name, string street, string zipcode, string city, uint members)
+        {
+            this.name = name;
+            this.street = street;
+            this.zipCode = zipcode;
+            this.city = city;
+            this.members = members;
+        }
         // Method to show the name 
         public string showName()
         {
@@ -40,9 +49,9 @@ namespace JasenSovellus
     {
         static void Main(string[] args)
         {
-            // Lets create a Accociation object named accociation
-            Accociation accociation = new Accociation();
-            string nimi = accociation.showName();
+            // Lets create a Association object named association
+            Association association = new Association();
+            string nimi = association.showName();
             Console.WriteLine(nimi);
             Console.ReadLine();
             
