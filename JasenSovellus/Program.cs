@@ -11,7 +11,7 @@ namespace JasenSovellus
     // Class for the Accociation
     class Accociation
     {
-        // Defined fields
+        // Defined fields aka attributes access level private by default
         string name;
         string street;
         string zipCode;
@@ -28,6 +28,7 @@ namespace JasenSovellus
             this.members = 0;
         }
 
+        // Method to show the name 
         public string showName()
         {
             return this.name;
