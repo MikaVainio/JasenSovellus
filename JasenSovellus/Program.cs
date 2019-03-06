@@ -11,7 +11,7 @@ namespace JasenSovellus
     // Class for the Accociation
     class Accociation
     {
-        // Defined fields aka attributes access level private by default
+        // Defined fields aka attributes, access level private by default
         string name;
         string street;
         string zipCode;
