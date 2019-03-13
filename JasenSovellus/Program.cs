@@ -104,6 +104,13 @@ namespace JasenSovellus
             this.compensation = fee;
 
         }
+
+        // Method for showing official information
+        public void officialdetails()
+        {
+            Console.WriteLine("Tehtävänimike: " + this.role);
+            Console.WriteLine("Sukunimi: " + this.lastname);
+        }
     }
 
     // Main program starts here
@@ -137,7 +144,43 @@ namespace JasenSovellus
             string nimi = association.showName();
             association.showProperties();
             Console.ReadLine();
-            
+
+            // Lets type official information
+
+            string first;
+            string last;
+            string number;
+            string phone;
+            string mail;
+            string role;
+            string fee;
+            float money;
+
+            Console.Write("Syötä etunimi: ");
+            first = Console.ReadLine();
+            Console.Write("Syötä sukunimi: ");
+            last = Console.ReadLine();
+            Console.Write("Syötä jäsennumero: ");
+            number = Console.ReadLine();
+            Console.Write("Anna puhelinnumero: ");
+            phone = Console.ReadLine();
+            Console.Write("Sähköpostiosoite on: ");
+            mail = Console.ReadLine();
+            Console.Write("Syötä rooli: ");
+            role = Console.ReadLine();
+            Console.Write("Anna palkkion suuruus: ");
+            fee = Console.ReadLine();
+            money = Convert.ToSingle(fee);
+
+
+
+            // Lets create a new official
+            Official official = new Official(first, last, number, phone,
+                mail, role, money);
+
+            // Lets call official information method
+            official.officialdetails();
+            Console.ReadLine();
         }
     }
 }
