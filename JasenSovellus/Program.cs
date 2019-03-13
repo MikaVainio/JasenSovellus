@@ -54,6 +54,58 @@ namespace JasenSovellus
         }
     }
 
+    // Class for members
+    class Member
+    {
+        protected string firstName;
+        protected string lastname;
+        protected string number;
+        protected string phone;
+        protected string email;
+
+        // Default Constructor, no arguments
+        public Member()
+        {
+            this.firstName = "N/A";
+            this.lastname = "N/A";
+            this.number = "N/A";
+            this.phone = "N/A";
+            this.email = "N/A";
+        }
+
+        // Constructor with all arguments
+        public Member(string givenName, string surname, string memberId, string tel, string mail)
+        {
+            this.firstName = givenName;
+            this.lastname = surname;
+            this.number = memberId;
+            this.phone = tel;
+            this.email = mail;
+        }
+    }
+
+    // Class for officials, inherits Member class
+    class Official : Member
+    {
+        string role;
+        float compensation;
+
+        // Default Constructor for officias
+        public Official() : base()
+        {
+            this.role = "N/A";
+            this.compensation = 0f;
+        }
+
+        // Constructor with all arguments
+        public Official(string givenName, string surname, string memberId, string tel, string mail, string duty, float fee)
+        {
+            this.role = duty;
+            this.compensation = fee;
+
+        }
+    }
+
     // Main program starts here
     class Program
     {
