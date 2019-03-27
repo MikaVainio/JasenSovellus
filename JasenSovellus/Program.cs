@@ -4,6 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// Serialisoinnin vaatimat luokat
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+
 namespace JasenSovellus
 {
     // Classes for associations and members
@@ -55,6 +60,7 @@ namespace JasenSovellus
     }
 
     // Class for members
+    [Serializable]
     class Member
     {
         protected string firstName;
@@ -85,6 +91,7 @@ namespace JasenSovellus
     }
 
     // Class for officials, inherits Member class
+    [Serializable]
     class Official : Member
     {
         string role;
@@ -98,7 +105,7 @@ namespace JasenSovellus
         }
 
         // Constructor with all arguments
-        public Official(string givenName, string surname, string memberId, string tel, string mail, string duty, float fee)
+        public Official(string givenName, string surname, string memberId, string tel, string mail, string duty, float fee) : base(givenName, surname, memberId, tel, mail)
         {
             this.role = duty;
             this.compensation = fee;
@@ -118,6 +125,11 @@ namespace JasenSovellus
     {
         static void Main(string[] args)
         {
+            // Define File handling
+            string path = "C:\\Users\\admin\\Documents\\Members.dat";
+            FileStream fileStream = File.OpenWrite(path);
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+
             // Lets type association information
             string inputName;
             string inputStreet;
@@ -126,27 +138,26 @@ namespace JasenSovellus
             string inputMembers;
             uint members;
 
-            Console.Write("Syötä yhdistyksen nimi: ");
-            inputName = Console.ReadLine();
-            Console.Write("Anna katuosoite: ");
-            inputStreet = Console.ReadLine();
-            Console.Write("Anna postinumero: ");
-            inputZipCode = Console.ReadLine();
-            Console.Write("Syötä postitoimipaikka: ");
-            inputCity = Console.ReadLine();
-            Console.Write("Syötä jäsenmäärä: ");
-            inputMembers = Console.ReadLine();
-            members = Convert.ToUInt32(inputMembers);
+            //Console.Write("Syötä yhdistyksen nimi: ");
+            //inputName = Console.ReadLine();
+            //Console.Write("Anna katuosoite: ");
+            //inputStreet = Console.ReadLine();
+            //Console.Write("Anna postinumero: ");
+            //inputZipCode = Console.ReadLine();
+            //Console.Write("Syötä postitoimipaikka: ");
+            //inputCity = Console.ReadLine();
+            //Console.Write("Syötä jäsenmäärä: ");
+            //inputMembers = Console.ReadLine();
+            //members = Convert.ToUInt32(inputMembers);
 
 
             // Lets create a Association object named association
-            Association association = new Association(inputName, inputStreet, inputZipCode, inputCity, members);
-            string nimi = association.showName();
-            association.showProperties();
-            Console.ReadLine();
+            //Association association = new Association(inputName, inputStreet, inputZipCode, inputCity, members);
+            //string nimi = association.showName();
+            //association.showProperties();
+            //Console.ReadLine();
 
             // Lets type official information
-
             string first;
             string last;
             string number;
@@ -156,30 +167,49 @@ namespace JasenSovellus
             string fee;
             float money;
 
-            Console.Write("Syötä etunimi: ");
-            first = Console.ReadLine();
-            Console.Write("Syötä sukunimi: ");
-            last = Console.ReadLine();
-            Console.Write("Syötä jäsennumero: ");
-            number = Console.ReadLine();
-            Console.Write("Anna puhelinnumero: ");
-            phone = Console.ReadLine();
-            Console.Write("Sähköpostiosoite on: ");
-            mail = Console.ReadLine();
-            Console.Write("Syötä rooli: ");
-            role = Console.ReadLine();
-            Console.Write("Anna palkkion suuruus: ");
-            fee = Console.ReadLine();
-            money = Convert.ToSingle(fee);
+            // Lets create an array for officials
+            Official[] officials = new Official[2];
 
+            for (int i = 0; i < 2; i++)
+            {
+                Console.Write("Syötä etunimi: ");
+                first = Console.ReadLine();
+                Console.Write("Syötä sukunimi: ");
+                last = Console.ReadLine();
+                Console.Write("Syötä jäsennumero: ");
+                number = Console.ReadLine();
+                Console.Write("Anna puhelinnumero: ");
+                phone = Console.ReadLine();
+                Console.Write("Sähköpostiosoite on: ");
+                mail = Console.ReadLine();
+                Console.Write("Syötä rooli: ");
+                role = Console.ReadLine();
+                Console.Write("Anna palkkion suuruus: ");
+                fee = Console.ReadLine();
+                money = Convert.ToSingle(fee);
 
+                
+                officials[i] = new Official(first, last, number, phone,
+                    mail, role, money);
 
-            // Lets create a new official
-            Official official = new Official(first, last, number, phone,
-                mail, role, money);
+                // Serializtion to disk
+                binaryFormatter.Serialize(fileStream, officials[i]);
+            }
 
-            // Lets call official information method
-            official.officialdetails();
+            // Close file after write operation
+            fileStream.Flush();
+            fileStream.Close();
+            Console.WriteLine("Jäsentiedot tallennettu");
+
+            // Read serialized objects back
+
+            FileStream fileStream2 = File.OpenRead(path);
+            Official officialRead = null;
+            while (fileStream2.Position != fileStream2.Length)
+            {
+                officialRead = (Official)(binaryFormatter.Deserialize(fileStream2));
+                officialRead.officialdetails();
+            }
             Console.ReadLine();
         }
     }
